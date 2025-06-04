@@ -16,7 +16,7 @@ workflow CALL_SV_MT {
         ch_eklipse_genes  = Channel.empty()
         ch_eklipse_circos = Channel.empty()
 
-        if (params.skip_tools && params.skip_tools.split(',').contains('eklipse')) {
+        if (!(params.skip_tools && params.skip_tools.split(',').contains('eklipse'))) {
             EKLIPSE(ch_bam_bai,[])
             ch_eklipse_del    = EKLIPSE.out.deletions
             ch_eklipse_genes  = EKLIPSE.out.genes
