@@ -49,7 +49,7 @@ workflow QC_BAM {
             .set { ch_hsmetrics_in}
 
         PICARD_COLLECTHSMETRICS (ch_hsmetrics_in, ch_genome_fasta, ch_genome_fai, [[],[]])
-        if (params.skip_tools && params.skip_tools.split(',').contains('qualimap')) {
+        if (!(params.skip_tools && params.skip_tools.split(',').contains('qualimap'))) {
             ch_qualimap = QUALIMAP_BAMQC (ch_bam, []).results
             ch_versions = ch_versions.mix(QUALIMAP_BAMQC.out.versions.first())
         }
@@ -74,7 +74,7 @@ workflow QC_BAM {
             ch_versions = ch_versions.mix(PICARD_COLLECTWGSMETRICS_Y.out.versions.first(), SENTIEON_WGSMETRICS_Y.out.versions.first())
         }
         // Check sex
-        if (params.skip_tools && params.skip_tools.split(',').contains('ngsbits')) {
+        if (!(params.skip_tools && params.skip_tools.split(',').contains('ngsbits'))) {
             NGSBITS_SAMPLEGENDER(ch_bam_bai, ch_genome_fasta, ch_genome_fai, ngsbits_samplegender_method)
             ch_ngsbits  = NGSBITS_SAMPLEGENDER.out.tsv
             ch_versions = ch_versions.mix(NGSBITS_SAMPLEGENDER.out.versions.first())
