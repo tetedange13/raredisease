@@ -1,5 +1,5 @@
 {
-    "-profile test": {
+    "-profile test_bam": {
         "content": [
             882,
             {
@@ -848,6 +848,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.3"
         },
-        "timestamp": "2025-06-09T13:41:46.741843434"
+        "timestamp": "2025-06-10T15:06:47.338768665"
     }
 }
