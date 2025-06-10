@@ -1,7 +1,7 @@
 {
     "-profile test": {
         "content": [
-            904,
+            865,
             {
                 "ADD_MOST_SEVERE_CSQ": {
                     "add_most_severe_consequence": "v1.1",
@@ -21,9 +21,6 @@
                     "bcftools": 1.2
                 },
                 "BCFTOOLS_CONCAT_ME": {
-                    "bcftools": 1.2
-                },
-                "BCFTOOLS_FILTER": {
                     "bcftools": 1.2
                 },
                 "BCFTOOLS_MERGE_MT": {
@@ -65,9 +62,6 @@
                 "BCFTOOLS_VIEW_UNCOMPRESS": {
                     "bcftools": 1.2
                 },
-                "BEDTOOLS_GENOMECOV": {
-                    "bedtools": "2.31.1"
-                },
                 "BEDTOOLS_PAD_TARGET_BED": {
                     "bedtools": "2.31.1"
                 },
@@ -90,10 +84,6 @@
                 },
                 "BWA_INDEX_GENOME": {
                     "bwa": "0.7.18-r1243-dirty"
-                },
-                "CALCULATE_SEED_FRACTION": {
-                    "calculate_seed_fraction": "v1.0",
-                    "python": "3.8.3"
                 },
                 "CAT_CAT_BAIT": {
                     "pigz": "2.3.4"
@@ -142,9 +132,6 @@
                     "ensemblvep": 113.0
                 },
                 "ENSEMBLVEP_ME": {
-                    "ensemblvep": 110.0
-                },
-                "ENSEMBLVEP_MT": {
                     "ensemblvep": 110.0
                 },
                 "ENSEMBLVEP_SNV": {
@@ -226,9 +213,6 @@
                 "HAPLOCHECK_MT": {
                     "haplocheck": "1.3.3"
                 },
-                "HMTNOTE_ANNOTATE": {
-                    "hmtnote": "0.7.2"
-                },
                 "INDEX_CNVNATOR": {
                     "tabix": 1.2
                 },
@@ -298,10 +282,6 @@
                 "RENAME_BAM": {
                     "coreutils": 8.31
                 },
-                "REPLACE_SPACES_IN_VCFINFO": {
-                    "replace_spaces_in_vcfinfo": "v1.0",
-                    "python": "3.8.3"
-                },
                 "RETROSEQ_CALL": {
                     "retroseq_call": 1.5
                 },
@@ -339,9 +319,6 @@
                     "samtools": 1.21
                 },
                 "SAMTOOLS_STATS": {
-                    "samtools": 1.21
-                },
-                "SAMTOOLS_VIEW": {
                     "samtools": 1.21
                 },
                 "SMNCOPYNUMBERCALLER": {
@@ -428,9 +405,6 @@
                 "TABIX_TABIX": {
                     "tabix": 1.2
                 },
-                "TABIX_TABIX_VEP_MT": {
-                    "tabix": 1.2
-                },
                 "TABIX_VEP": {
                     "tabix": 1.2
                 },
@@ -461,39 +435,24 @@
                 "VCFANNO": {
                     "vcfanno": "0.3.5"
                 },
-                "VCFANNO_MT": {
-                    "vcfanno": "0.3.5"
-                },
                 "Workflow": {
                     "nf-core/raredisease": "v2.6.0dev"
-                },
-                "ZIP_TABIX_HMTNOTE_MT": {
-                    "tabix": 1.2
                 },
                 "ZIP_TABIX_ROHCALL": {
                     "tabix": 1.2
                 },
                 "ZIP_TABIX_VCFANNO": {
                     "tabix": 1.2
-                },
-                "ZIP_TABIX_VCFANNO_MT": {
-                    "tabix": 1.2
                 }
             },
             [
                 "alignment",
-                "alignment/earlycasualcaiman_mt_subsample.bam",
-                "alignment/earlycasualcaiman_mt_subsample.bam.bai",
                 "alignment/earlycasualcaiman_sorted_md.MarkDuplicates.metrics.txt",
                 "alignment/earlycasualcaiman_sorted_md.bam",
                 "alignment/earlycasualcaiman_sorted_md.bam.bai",
-                "alignment/hugelymodelbat_mt_subsample.bam",
-                "alignment/hugelymodelbat_mt_subsample.bam.bai",
                 "alignment/hugelymodelbat_sorted_md.MarkDuplicates.metrics.txt",
                 "alignment/hugelymodelbat_sorted_md.bam",
                 "alignment/hugelymodelbat_sorted_md.bam.bai",
-                "alignment/slowlycivilbuck_mt_subsample.bam",
-                "alignment/slowlycivilbuck_mt_subsample.bam.bai",
                 "alignment/slowlycivilbuck_sorted_md.MarkDuplicates.metrics.txt",
                 "alignment/slowlycivilbuck_sorted_md.bam",
                 "alignment/slowlycivilbuck_sorted_md.bam.bai",
@@ -524,9 +483,6 @@
                 "annotate_snv/genome/slowlycivilbuck_rhocallviz/slowlycivilbuck_rhocallviz.bw",
                 "annotate_snv/genome/slowlycivilbuck_rhocallviz/slowlycivilbuck_rhocallviz.wig",
                 "annotate_snv/genome/slowlycivilbuck_rhocallviz_autozyg_chromograph",
-                "annotate_snv/mitochondria",
-                "annotate_snv/mitochondria/justhusky_mitochondria_hmtnote_vcfanno_vep.vcf.gz",
-                "annotate_snv/mitochondria/justhusky_mitochondria_hmtnote_vcfanno_vep.vcf.gz.tbi",
                 "annotate_sv",
                 "annotate_sv/justhusky_svdbquery_vep.json.gz",
                 "annotate_sv/justhusky_svdbquery_vep.summary.html",
@@ -841,14 +797,6 @@
                 "qc_bam/slowlycivilbuck_wgsmetrics.CollectWgsMetrics.coverage_metrics",
                 "qc_bam/slowlycivilbuck_wgsmetrics_y.CollectWgsMetrics.coverage_metrics",
                 "rank_and_filter",
-                "rank_and_filter/justhusky_mt_ranked_clinical.vcf.gz",
-                "rank_and_filter/justhusky_mt_ranked_clinical.vcf.gz.csi",
-                "rank_and_filter/justhusky_mt_ranked_clinical.vcf.gz.gzi",
-                "rank_and_filter/justhusky_mt_ranked_clinical.vcf.gz.tbi",
-                "rank_and_filter/justhusky_mt_ranked_research.vcf.gz",
-                "rank_and_filter/justhusky_mt_ranked_research.vcf.gz.csi",
-                "rank_and_filter/justhusky_mt_ranked_research.vcf.gz.gzi",
-                "rank_and_filter/justhusky_mt_ranked_research.vcf.gz.tbi",
                 "rank_and_filter/justhusky_snv_ranked_clinical.vcf.gz",
                 "rank_and_filter/justhusky_snv_ranked_clinical.vcf.gz.csi",
                 "rank_and_filter/justhusky_snv_ranked_clinical.vcf.gz.gzi",
@@ -908,6 +856,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.3"
         },
-        "timestamp": "2025-06-10T15:01:48.270423554"
+        "timestamp": "2025-06-10T15:47:13.677202911"
     }
 }
