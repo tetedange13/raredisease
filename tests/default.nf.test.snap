@@ -1,7 +1,7 @@
 {
     "-profile test": {
         "content": [
-            301,
+            298,
             {
                 "ADD_MOST_SEVERE_CSQ": {
                     "add_most_severe_consequence": "v1.1",
@@ -203,9 +203,6 @@
                 },
                 "MT_DELETION": {
                     "samtools": "1.19.2"
-                },
-                "NGSBITS_SAMPLEGENDER": {
-                    "ngs-bits": 202302
                 },
                 "PICARD_ADDORREPLACEREADGROUPS_MT": {
                     "picard": "3.3.0"
@@ -446,10 +443,6 @@
                 "multiqc/multiqc_data",
                 "multiqc/multiqc_plots",
                 "multiqc/multiqc_report.html",
-                "ngsbits_samplegender",
-                "ngsbits_samplegender/earlycasualcaiman_ngsbits_sex.tsv",
-                "ngsbits_samplegender/hugelymodelbat_ngsbits_sex.tsv",
-                "ngsbits_samplegender/slowlycivilbuck_ngsbits_sex.tsv",
                 "pedigree",
                 "pedigree/justhusky.ped",
                 "pipeline_info",
@@ -576,6 +569,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.3"
         },
-        "timestamp": "2025-06-11T16:15:38.071074441"
+        "timestamp": "2025-06-11T20:29:48.369992294"
     }
 }
