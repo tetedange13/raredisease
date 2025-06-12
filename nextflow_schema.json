@@ -261,6 +261,11 @@
                     "pattern": "^\\S+\\.csv$",
                     "schema": "assets/svdb_query_vcf_schema.json"
                 },
+                "modules_testdata_base_path": {
+                    "type": "string",
+                    "description": "Base path / URL for data used in the modules",
+                    "hidden": true
+                },
                 "ml_model": {
                     "type": "string",
                     "exists": true,
