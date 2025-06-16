@@ -341,6 +341,15 @@
                 "TABIX_TABIX": {
                     "tabix": 1.2
                 },
+                "TABIX_TABIX_MERGE": {
+                    "tabix": 1.2
+                },
+                "TABIX_TABIX_MT2": {
+                    "tabix": 1.2
+                },
+                "TABIX_TABIX_MT": {
+                    "tabix": 1.2
+                },
                 "TABIX_VEP": {
                     "tabix": 1.2
                 },
@@ -366,7 +375,7 @@
                     "vcfanno": "0.3.5"
                 },
                 "Workflow": {
-                    "nf-core/raredisease": "v2.6.0dev"
+                    "nf-core/raredisease": "v2.6.0"
                 },
                 "ZIP_TABIX_ROHCALL": {
                     "tabix": 1.2
@@ -569,6 +578,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.3"
         },
-        "timestamp": "2025-06-11T20:29:48.369992294"
+        "timestamp": "2025-06-16T15:08:20.089341908"
     }
 }
