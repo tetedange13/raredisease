@@ -69,8 +69,8 @@ workflow ALIGN_BWA_BWAMEM2_BWAMEME {
         // Merge multiple lane samples and index
         ch_align
             .map{ meta, bam ->
-                    new_id   = meta.sample
-                    new_meta = meta + [id:new_id, read_group:"\'@RG\\tID:" + new_id + "\\tPL:" + val_platform + "\\tSM:" + new_id + "\'"] - meta.subMap('lane')
+                    def new_id   = meta.sample
+                    def new_meta = meta + [id:new_id, read_group:"\'@RG\\tID:" + new_id + "\\tPL:" + val_platform + "\\tSM:" + new_id + "\'"] - meta.subMap('lane','data_type')
                     [groupKey(new_meta, new_meta.num_lanes), bam]
                 }
             .groupTuple()
@@ -90,6 +90,8 @@ workflow ALIGN_BWA_BWAMEM2_BWAMEME {
             extract_bam_sorted_indexed = prepared_bam.join(SAMTOOLS_INDEX_EXTRACT.out.bai, failOnMismatch:true, failOnDuplicate:true)
             EXTRACT_ALIGNMENTS( extract_bam_sorted_indexed, ch_genome_fasta, [])
             prepared_bam = EXTRACT_ALIGNMENTS.out.bam
+            ch_versions = ch_versions.mix(EXTRACT_ALIGNMENTS.out.versions.first())
+            ch_versions = ch_versions.mix(SAMTOOLS_INDEX_EXTRACT.out.versions.first())
         }
 
         // Marking duplicates

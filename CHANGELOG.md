@@ -3,6 +3,57 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.6.0 - Cacofonix [2025-06-25]
+
+### `Added`
+
+- A feature to start the workflow from duplicate-marked bam files [#682](https://github.com/nf-core/raredisease/pull/682)
+- A functionality to take spring files as input [#678](https://github.com/nf-core/raredisease/pull/678)
+
+### `Changed`
+
+- Refactored code to only handle clinical variants in the generate_clinical_set workflow [#693](https://github.com/nf-core/raredisease/pull/693)
+- Refactored `schema_input.json` and `nextflow_schema.json` to improve the error messages and validations of the pipeline [#692](https://github.com/nf-core/raredisease/pull/692)
+- Updated `add_most_severe_consequence` and `add_most_severe_pli` to fix spelling and language server warnings [#689](https://github.com/nf-core/raredisease/pull/689)
+- Refactored code to address issues highlighted by language server [#688](https://github.com/nf-core/raredisease/pull/688)
+- Changed for loop to each in create_pedigree_file [#683](https://github.com/nf-core/raredisease/pull/683)
+- Refactored repeat annotation and updated Stranger [#702](https://github.com/nf-core/raredisease/pull/702)
+
+### `Fixed`
+
+- Errors due to channel name and structure inconsistencies in the sentieon SNV calling subworkflow[#688](https://github.com/nf-core/raredisease/pull/688)
+
+### Parameters
+
+| Old parameter            | New parameter     |
+| ------------------------ | ----------------- |
+| skip_haplogrep3          | skip_tools        |
+| skip_fastp               |                   |
+| skip_gens                |                   |
+| skip_germlinecnvcaller   |                   |
+| skip_peddy               |                   |
+| skip_smncopynumbercaller |                   |
+| skip_vcf2cytosure        |                   |
+| skip_me_calling          | skip_subworkflows |
+| skip_me_annotation       |                   |
+| skip_mt_annotation       |                   |
+| skip_mt_subsample        |                   |
+| skip_repeat_annotation   |                   |
+| skip_repeat_calling      |                   |
+| skip_snv_annotation      |                   |
+| skip_snv_calling         |                   |
+| skip_sv_annotation       |                   |
+| skip_sv_calling          |                   |
+
+### Tool updates
+
+| Tool                        | Old version | New version |
+| --------------------------- | ----------- | ----------- |
+| DeepVariant                 | 1.6.1       | 1.8.0       |
+| add_most_severe_consequence | 1.0         | 1.1         |
+| add_most_severe_pli         | 1.0         | 1.1         |
+| stranger                    | 0.9.2       | 0.9.4       |
+
 ## v2.5.0 - Fulliautomatix [2025-05-22]
 
 ### `Added`
@@ -42,6 +93,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add markduplicates metrics to multiqc [#679](https://github.com/nf-core/raredisease/pull/679)
 
 ### `Changed`
+
+- Update SVDB/merge to fix language server problems [#684](https://github.com/nf-core/raredisease/pull/684)
 
 ### `Fixed`
 

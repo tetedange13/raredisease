@@ -25,8 +25,8 @@ workflow ALIGN_SENTIEON {
         SENTIEON_BWAMEM.out
             .bam_and_bai
             .map{ meta, bam, bai ->
-                new_id   = meta.sample
-                new_meta = meta + [id:new_id, read_group:"\'@RG\\tID:" + new_id + "\\tPL:" + val_platform + "\\tSM:" + new_id + "\'"] - meta.subMap('lane')
+                def new_id   = meta.sample
+                def new_meta = meta + [id:new_id, read_group:"\'@RG\\tID:" + new_id + "\\tPL:" + val_platform + "\\tSM:" + new_id + "\'"] - meta.subMap('lane')
                 [groupKey(new_meta, new_meta.num_lanes), bam, bai]
                 }
             .groupTuple()
@@ -45,6 +45,9 @@ workflow ALIGN_SENTIEON {
             ch_bam_bai = EXTRACT_ALIGNMENTS.out.bam
             SAMTOOLS_INDEX_EXTRACT ( EXTRACT_ALIGNMENTS.out.bam )
             ch_bam_bai = EXTRACT_ALIGNMENTS.out.bam.join(SAMTOOLS_INDEX_EXTRACT.out.bai, failOnMismatch:true, failOnDuplicate:true)
+            ch_versions = ch_versions.mix(EXTRACT_ALIGNMENTS.out.versions.first())
+            ch_versions = ch_versions.mix(SAMTOOLS_INDEX_EXTRACT.out.versions.first())
+
         }
 
         SENTIEON_DATAMETRICS ( ch_bam_bai, ch_genome_fasta, ch_genome_fai, false )
@@ -53,6 +56,7 @@ workflow ALIGN_SENTIEON {
 
         ch_versions = ch_versions.mix(SENTIEON_BWAMEM.out.versions.first())
         ch_versions = ch_versions.mix(SENTIEON_DATAMETRICS.out.versions.first())
+        ch_versions = ch_versions.mix(SENTIEON_READWRITER.out.versions.first())
         ch_versions = ch_versions.mix(SENTIEON_DEDUP.out.versions.first())
 
     emit:

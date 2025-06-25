@@ -118,7 +118,7 @@
                     },
                     "deepvariant/rundeepvariant": {
                         "branch": "master",
-                        "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
+                        "git_sha": "470ac76fb4fbba2a9284c8b65191119c8bfe5a69",
                         "installed_by": ["modules"]
                     },
                     "eklipse": {
@@ -453,14 +453,19 @@
                         "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
                         "installed_by": ["modules"]
                     },
+                    "spring/decompress": {
+                        "branch": "master",
+                        "git_sha": "05954dab2ff481bcb999f24455da29a5828af08d",
+                        "installed_by": ["modules"]
+                    },
                     "stranger": {
                         "branch": "master",
-                        "git_sha": "26cdbf29e76695c7fd85e42e0015c7e96f979fe9",
+                        "git_sha": "ffe458cbd1208b82e33e607fa43fbe80df191047",
                         "installed_by": ["modules"]
                     },
                     "svdb/merge": {
                         "branch": "master",
-                        "git_sha": "a8ad84b7ee0cda0b001490e95d9ed277e687e368",
+                        "git_sha": "95185f269ec10a33cde61d294fcd4ba7c66bc6b8",
                         "installed_by": ["modules"]
                     },
                     "svdb/query": {

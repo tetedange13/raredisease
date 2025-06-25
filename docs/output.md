@@ -323,7 +323,7 @@ The pipeline performs variant calling using [Sentieon DNAscope](https://support.
 
 #### SVDB merge
 
-[SVDB merge](https://github.com/J35P312/SVDB#merge) is used to merge the variant calls from GATK's GermlineCNVCaller (only if `skip_germlinecnvcaller` is set to false), Manta, and TIDDIT. Output files are published in the output folder.
+[SVDB merge](https://github.com/J35P312/SVDB#merge) is used to merge the variant calls from GATK's GermlineCNVCaller (only if `skip_tools` doesn't include germlinecnvcaller), Manta, and TIDDIT. Output files are published in the output folder.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -394,7 +394,7 @@ We recommend using vcfanno to annotate SNVs with precomputed CADD scores (files 
 
 Based on VEP annotations, custom scripts used by the pipeline further annotate each record with the most severe consequence, and pli scores.
 
-> **NB**: Output files described below do not include mitochondrial annotations only if --skip_mt_annotation is set to true.
+> **NB**: Output files described below do not include mitochondrial annotations only if --skip_subworklows includes mt_annotation.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -459,7 +459,7 @@ Based on VEP annotations, custom scripts used by the pipeline further annotate e
 
 ### Mitochondrial analysis
 
-Mitochondrial analysis is run by default. If you want to turn off annotations set `--skip_mt_annotation` to true.
+Mitochondrial analysis is run by default. If you want to turn off annotations set `--skip_subworkflows mt_annotation`.
 
 #### Haplocheck
 
@@ -544,7 +544,7 @@ We recommend using vcfanno to annotate SNVs with precomputed CADD scores (files 
 
 #### Filter_vep
 
-[filter_vep from VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html) is used to subset the variants based on a list of HGNC ID:s. Typical use case is that you want to filter your results to only include variants in a predefined set of clinically relevant genes. This step is optional and can be disabled by using the flag `--skip_vep_filter`. You will always get the complete VCF together with the clinical VCF.
+[filter_vep from VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html) is used to subset the variants based on a list of HGNC ID:s. Typical use case is that you want to filter your results to only include variants in a predefined set of clinically relevant genes. This step is optional and can be disabled by using the flag `--skip_subworkflows generate_clinical_set`. You will always get the complete VCF together with the clinical VCF.
 
 #### GENMOD
 
@@ -586,7 +586,7 @@ Mobile elements are identified from the bam file using [RetroSeq](https://github
 
 #### Annotating mobile elements
 
-The mobile elements are annotated with allele frequencies and allele counts using SVDB. These annotation files needed are preferably produced from a representative population. Further annoation is done using VEP and the resulting VCF is filtered using bcftools. The default filter is to only keep elements with `PASS` in the filter column but if no other post-processing is done we reccomend supplementing with an exclude expression based on population allele frequencies. The filtering key is dependent on the annotation files used but an example expression could look like this: `--exclude 'INFO/swegen_sva_FRQ > 0.1'`. If a list of HGNC id's have been supplied with the option `--vep_filters`, variants matching those id's will be presented in a seperate file using [filter_vep from VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html). This option can be disabled using the flag `--skip_vep_filter`. A VCF corresponding to the complete set of variants will also be produced.
+The mobile elements are annotated with allele frequencies and allele counts using SVDB. These annotation files needed are preferably produced from a representative population. Further annoation is done using VEP and the resulting VCF is filtered using bcftools. The default filter is to only keep elements with `PASS` in the filter column but if no other post-processing is done we reccomend supplementing with an exclude expression based on population allele frequencies. The filtering key is dependent on the annotation files used but an example expression could look like this: `--exclude 'INFO/swegen_sva_FRQ > 0.1'`. If a list of HGNC id's have been supplied with the option `--vep_filters`, variants matching those id's will be presented in a seperate file using [filter_vep from VEP](https://www.ensembl.org/info/docs/tools/vep/script/vep_filter.html). This option can be disabled using the flag `--skip_subworkflows generate_clinical_set`. A VCF corresponding to the complete set of variants will also be produced.
 
 <details markdown="1">
 <summary>Output files</summary>
@@ -629,7 +629,7 @@ Provided a truth set, SNVs can be evaluated using RTG Tools' vcfeval engine. Out
 
 ### Gens
 
-The sequencing data can be prepared for visualization of CNVs in [Gens](https://github.com/Clinical-Genomics-Lund/gens). This subworkflow is turned off by default. You can activate it by supplying the option `--skip_gens false`. You can read more about how to setup Gens [here](https://github.com/Clinical-Genomics-Lund/gens).
+The sequencing data can be prepared for visualization of CNVs in [Gens](https://github.com/Clinical-Genomics-Lund/gens). You can turn it off by supplying the option `--skip_tools gens`. You can read more about how to setup Gens [here](https://github.com/Clinical-Genomics-Lund/gens).
 
 <details markdown="1">
 <summary>Output files</summary>

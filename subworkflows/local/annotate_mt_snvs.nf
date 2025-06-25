@@ -26,12 +26,11 @@ workflow ANNOTATE_MT_SNVS {
         val_vep_genome         // string:  [mandatory] GRCh37 or GRCh38
         val_vep_cache_version  // string:  [mandatory] 107
         ch_vep_cache           // channel: [mandatory] [ path(cache) ]
-        ch_vep_cache           // channel: [mandatory] [ path(cache) ]
         ch_vep_extra_files     // channel: [mandatory] [ path(files) ]
 
     main:
-        ch_versions = Channel.empty()
-        ch_haplog   = Channel.empty()
+        ch_versions     = Channel.empty()
+        ch_haplog       = Channel.empty()
 
         // add prefix to meta
         ch_mt_vcf
@@ -100,7 +99,7 @@ workflow ANNOTATE_MT_SNVS {
         TABIX_TABIX_VEP_MT(ENSEMBLVEP_MT.out.vcf)
 
         // Running haplogrep3
-        if (!params.skip_haplogrep3) {
+        if (!(params.skip_tools && params.skip_tools.split(',').contains('haplogrep3'))) {
             HAPLOGREP3_CLASSIFY_MT(ch_haplogrep_in)
             ch_haplog   = HAPLOGREP3_CLASSIFY_MT.out.txt
             ch_versions = ch_versions.mix(HAPLOGREP3_CLASSIFY_MT.out.versions)
