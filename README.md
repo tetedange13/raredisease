@@ -35,7 +35,7 @@
 **nf-core/raredisease** is a best-practice bioinformatic pipeline for calling and scoring variants from WGS/WES data from rare disease patients. This pipeline is heavily inspired by [MIP](https://github.com/Clinical-Genomics/MIP).
 
 > [!NOTE]
-> We do not support single-end data from Illumina, as some tools in the pipeline are not compatible with this type of data. Also, we do not support analysis of multiple cases in a single samplesheet.
+> Right now, we only support paired-end data from Illumina. If you've got other types of data and the pipeline doesn't work for you, just open an issue. We'd be happy to chat about a solution.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
