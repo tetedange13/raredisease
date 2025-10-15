@@ -593,6 +593,11 @@
                     "description": "Disable specified tools.",
                     "help_text": "Multiple tools can be specified, separated by commas.",
                     "pattern": "^((fastp|gens|germlinecnvcaller|haplogrep3|peddy|smncopynumbercaller|vcf2cytosure|fastqc|qualimap|ngsbits|eklipse)?,?)*(?<!,)$"
+                },
+                "skip_align": {
+                    "type": "boolean",
+                    "fa_icon": "fas fa-forward",
+                    "description": "Disable alignment (= start from BAM), default=false."
                 }
             }
         },

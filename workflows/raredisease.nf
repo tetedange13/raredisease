@@ -54,6 +54,7 @@ include { CALL_MOBILE_ELEMENTS                               } from '../subworkf
 include { CALL_REPEAT_EXPANSIONS                             } from '../subworkflows/local/call_repeat_expansions'
 include { CALL_SNV                                           } from '../subworkflows/local/call_snv'
 include { CALL_STRUCTURAL_VARIANTS                           } from '../subworkflows/local/call_structural_variants'
+include { CHECK_INPUT_FASTQ; CHECK_INPUT_BAM                 } from '../subworkflows/local/check_input'
 include { GENERATE_CLINICAL_SET as GENERATE_CLINICAL_SET_ME  } from '../subworkflows/local/generate_clinical_set.nf'
 include { GENERATE_CLINICAL_SET as GENERATE_CLINICAL_SET_MT  } from '../subworkflows/local/generate_clinical_set'
 include { GENERATE_CLINICAL_SET as GENERATE_CLINICAL_SET_SNV } from '../subworkflows/local/generate_clinical_set'
@@ -348,31 +349,41 @@ workflow RAREDISEASE {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-    ALIGN (
-        ch_input_fastqs,
-        ch_alignments,
-        ch_genome_fasta,
-        ch_genome_fai,
-        ch_genome_bwaindex,
-        ch_genome_bwamem2index,
-        ch_genome_bwamemeindex,
-        ch_genome_dictionary,
-        ch_mt_bwaindex,
-        ch_mt_bwamem2index,
-        ch_mt_dictionary,
-        ch_mt_fai,
-        ch_mt_fasta,
-        ch_mtshift_bwaindex,
-        ch_mtshift_bwamem2index,
-        ch_mtshift_dictionary,
-        ch_mtshift_fai,
-        ch_mtshift_fasta,
-        params.mbuffer_mem,
-        params.platform,
-        params.samtools_sort_threads
-    )
-    .set { ch_mapped }
-    ch_versions   = ch_versions.mix(ALIGN.out.versions)
+    if(!params.skip_align) {
+        ALIGN (
+            ch_input_fastqs,
+            ch_alignments,
+            ch_genome_fasta,
+            ch_genome_fai,
+            ch_genome_bwaindex,
+            ch_genome_bwamem2index,
+            ch_genome_bwamemeindex,
+            ch_genome_dictionary,
+            ch_mt_bwaindex,
+            ch_mt_bwamem2index,
+            ch_mt_dictionary,
+            ch_mt_fai,
+            ch_mt_fasta,
+            ch_mtshift_bwaindex,
+            ch_mtshift_bwamem2index,
+            ch_mtshift_dictionary,
+            ch_mtshift_fai,
+            ch_mtshift_fasta,
+            params.mbuffer_mem,
+            params.platform,
+            params.samtools_sort_threads
+        )
+        .set { ch_mapped }
+        ch_versions   = ch_versions.mix(ALIGN.out.versions)
+
+    } else {
+        CHECK_INPUT_BAM (Channel.fromPath(params.input))
+        ch_mapped = CHECK_INPUT_BAM.out
+        ch_versions = ch_versions.mix(CHECK_INPUT_BAM.out.versions)
+
+        //ch_samples = CHECK_INPUT_BAM.out.samples
+        //ch_case_info = CHECK_INPUT_BAM.out.case_info
+    }
 
     if (!(params.skip_subworkflows && params.skip_subworkflows.split(',').contains('mt_subsample')) && (params.analysis_type.equals("wgs") || params.run_mt_for_wes)) {
         SUBSAMPLE_MT(
@@ -448,7 +459,6 @@ workflow RAREDISEASE {
     CALL AND ANNOTATE NUCLEAR AND MITOCHONDRIAL SNVs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
     if (!(params.skip_subworkflows && params.skip_subworkflows.split(',').contains('snv_calling'))) {
         CALL_SNV (
             ch_mapped.genome_bam_bai,
@@ -913,8 +923,10 @@ workflow RAREDISEASE {
 
     ch_multiqc_files = ch_multiqc_files.mix(fastqc_report.collect{it[1]}.ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(ch_mt_txt.map{it[1]}.collect().ifEmpty([]))
-    ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.fastp_json.map{it[1]}.collect().ifEmpty([]))
-    ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.markdup_metrics.map{it[1]}.collect().ifEmpty([]))
+    if (!params.skip_align) {
+        ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.fastp_json.map{it[1]}.collect().ifEmpty([]))
+        ch_multiqc_files = ch_multiqc_files.mix(ALIGN.out.markdup_metrics.map{it[1]}.collect().ifEmpty([]))
+    }
     ch_multiqc_files = ch_multiqc_files.mix(QC_BAM.out.sex_check.map{it[1]}.collect().ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(QC_BAM.out.multiple_metrics.map{it[1]}.collect().ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(QC_BAM.out.hs_metrics.map{it[1]}.collect().ifEmpty([]))
