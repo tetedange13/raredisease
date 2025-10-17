@@ -695,7 +695,7 @@
                     "default": "deepvariant",
                     "description": "Specifies the variant caller to use - available options are 'deepvariant' and 'sentieon'.",
                     "fa_icon": "fas fa-random",
-                    "enum": ["deepvariant", "sentieon"]
+                    "enum": ["deepvariant", "clair3", "sentieon"]
                 },
                 "variant_type": {
                     "type": "string",

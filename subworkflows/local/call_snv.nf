@@ -4,6 +4,8 @@
 
 include { CALL_SNV_DEEPVARIANT             } from './call_snv_deepvariant'
 include { CALL_SNV_SENTIEON                } from './call_snv_sentieon'
+include { CLAIR3                           } from '../../modules/local/clair3'
+include { TABIX_TABIX as CLAIR3_TABIX_VCF  } from '../../modules/nf-core/tabix/tabix/main'
 include { CALL_SNV_MT                      } from './call_snv_MT'
 include { CALL_SNV_MT as CALL_SNV_MT_SHIFT } from './call_snv_MT'
 include { POSTPROCESS_MT_CALLS             } from './postprocess_MT_calls'
@@ -44,6 +46,10 @@ workflow CALL_SNV {
         ch_deepvar_tbi   = Channel.empty()
         ch_deepvar_gvcf  = Channel.empty()
         ch_deepvar_gtbi  = Channel.empty()
+        ch_clair_vcf     = Channel.empty()
+        ch_clair_tbi     = Channel.empty()
+        ch_clair_gvcf    = Channel.empty()
+        ch_clair_gtbi    = Channel.empty()
         ch_mt_vcf        = Channel.empty()
         ch_mt_tabix      = Channel.empty()
         ch_mt_vcf_tabix  = Channel.empty()
@@ -69,6 +75,16 @@ workflow CALL_SNV {
             ch_deepvar_gvcf = CALL_SNV_DEEPVARIANT.out.gvcf
             ch_deepvar_gtbi = CALL_SNV_DEEPVARIANT.out.gvcf_tabix
             ch_versions    = ch_versions.mix(CALL_SNV_DEEPVARIANT.out.versions)
+        } else if (params.variant_caller.equals("clair3") && !params.analysis_type.equals("mito")) {
+            //Call variants with clair3
+            CLAIR3( ch_genome_bam_bai, ch_genome_fasta, ch_genome_fai )
+            ch_clair_vcf = CLAIR3.out.vcf
+            //Index clair3 vcf.gz
+            CLAIR3_TABIX_VCF( ch_clair_vcf )
+            ch_clair_tbi = CLAIR3_TABIX_VCF.out.tbi
+            // ch_clair_gvcf = CLAIR3.out.gvcf
+            // ch_clair_gtbi = CLAIR3_TABIX_VCF.out.gvcf_tbi
+            ch_versions = ch_versions.mix(CLAIR3.out.versions)
         } else if (params.variant_caller.equals("sentieon")) {
             CALL_SNV_SENTIEON(         // triggered only when params.variant_caller is set as sentieon
                 ch_genome_bam_bai,
@@ -90,10 +106,10 @@ workflow CALL_SNV {
             ch_versions    = ch_versions.mix(CALL_SNV_SENTIEON.out.versions)
         }
 
-        ch_vcf    = Channel.empty().mix(ch_deepvar_vcf, ch_sentieon_vcf)
-        ch_tabix  = Channel.empty().mix(ch_deepvar_tbi, ch_sentieon_tbi)
-        ch_gvcf   = Channel.empty().mix(ch_deepvar_gvcf, ch_sentieon_gvcf)
-        ch_gtabix = Channel.empty().mix(ch_deepvar_gtbi, ch_sentieon_gtbi)
+        ch_vcf    = Channel.empty().mix(ch_deepvar_vcf, ch_clair_vcf, ch_sentieon_vcf)
+        ch_tabix  = Channel.empty().mix(ch_deepvar_tbi, ch_clair_tbi, ch_sentieon_tbi)
+        ch_gvcf   = Channel.empty().mix(ch_deepvar_gvcf, ch_clair_gvcf, ch_sentieon_gvcf)
+        ch_gtabix = Channel.empty().mix(ch_deepvar_gtbi, ch_clair_gtbi, ch_sentieon_gtbi)
 
         ch_vcf
             .join(ch_tabix, failOnMismatch:true, failOnDuplicate:true)
