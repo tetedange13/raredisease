@@ -4,8 +4,7 @@
 
 include { CALL_SNV_DEEPVARIANT             } from './call_snv_deepvariant'
 include { CALL_SNV_SENTIEON                } from './call_snv_sentieon'
-include { CLAIR3                           } from '../../modules/local/clair3'
-include { TABIX_TABIX as CLAIR3_TABIX_VCF  } from '../../modules/nf-core/tabix/tabix/main'
+include { CALL_SNV_CLAIR3                  } from './call_snv_clair3'
 include { CALL_SNV_MT                      } from './call_snv_MT'
 include { CALL_SNV_MT as CALL_SNV_MT_SHIFT } from './call_snv_MT'
 include { POSTPROCESS_MT_CALLS             } from './postprocess_MT_calls'
@@ -76,15 +75,20 @@ workflow CALL_SNV {
             ch_deepvar_gtbi = CALL_SNV_DEEPVARIANT.out.gvcf_tabix
             ch_versions    = ch_versions.mix(CALL_SNV_DEEPVARIANT.out.versions)
         } else if (params.variant_caller.equals("clair3") && !params.analysis_type.equals("mito")) {
-            //Call variants with clair3
-            CLAIR3( ch_genome_bam_bai, ch_genome_fasta, ch_genome_fai )
-            ch_clair_vcf = CLAIR3.out.vcf
-            //Index clair3 vcf.gz
-            CLAIR3_TABIX_VCF( ch_clair_vcf )
-            ch_clair_tbi = CLAIR3_TABIX_VCF.out.tbi
-            // ch_clair_gvcf = CLAIR3.out.gvcf
-            // ch_clair_gtbi = CLAIR3_TABIX_VCF.out.gvcf_tbi
-            ch_versions = ch_versions.mix(CLAIR3.out.versions)
+            CALL_SNV_CLAIR3 (      // triggered only when params.variant_caller is set as clair3
+                ch_genome_bam_bai,
+                ch_genome_fasta,
+                ch_genome_fai,
+                ch_target_bed,
+                ch_case_info,
+                ch_foundin_header,
+                ch_genome_chrsizes
+            )
+            ch_clair_vcf  = CALL_SNV_CLAIR3.out.vcf
+            ch_clair_tbi  = CALL_SNV_CLAIR3.out.tabix
+            ch_clair_gvcf = CALL_SNV_CLAIR3.out.gvcf
+            ch_clair_gtbi = CALL_SNV_CLAIR3.out.gvcf_tabix
+            ch_versions   = ch_versions.mix(CALL_SNV_CLAIR3.out.versions)
         } else if (params.variant_caller.equals("sentieon")) {
             CALL_SNV_SENTIEON(         // triggered only when params.variant_caller is set as sentieon
                 ch_genome_bam_bai,
