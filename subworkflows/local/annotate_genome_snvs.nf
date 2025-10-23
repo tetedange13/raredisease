@@ -113,6 +113,7 @@ workflow ANNOTATE_GENOME_SNVS {
             .set { ch_vep_in }
 
         // Annotating with ensembl Vep
+        // WARN: If 'ch_vep_extra_files' empty, does not run -> '--vep_plugin_files' kind of mandatory
         ENSEMBLVEP_SNV(
             ch_vep_in,
             val_vep_genome,
