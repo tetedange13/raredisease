@@ -27,7 +27,7 @@ process CADD {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def VERSION = "1.6.post1" // WARN: Version information not provided by tool on CLI. Please update version string below when bumping container versions.
     """
-    cadd.sh \\
+    XDG_CACHE_HOME=$PWD cadd.sh \\
         -o ${prefix}.tsv.gz \\
         $args \\
         $vcf
