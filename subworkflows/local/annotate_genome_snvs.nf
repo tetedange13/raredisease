@@ -154,7 +154,8 @@ workflow ANNOTATE_GENOME_SNVS {
         UPD_SITES(ch_upd_in)
         UPD_REGIONS(ch_upd_in)
         CHROMOGRAPH_SITES([[],[]], [[],[]], [[],[]], [[],[]], [[],[]], [[],[]], UPD_SITES.out.bed)
-        CHROMOGRAPH_REGIONS([[],[]], [[],[]], [[],[]], [[],[]], [[],[]], UPD_REGIONS.out.bed, [[],[]])
+        // Does not work on subsampled BAM ?
+        //CHROMOGRAPH_REGIONS([[],[]], [[],[]], [[],[]], [[],[]], [[],[]], UPD_REGIONS.out.bed, [[],[]])
 
 
         BCFTOOLS_CONCAT.out.vcf
@@ -176,7 +177,8 @@ workflow ANNOTATE_GENOME_SNVS {
         ch_versions = ch_versions.mix(UPD_SITES.out.versions)
         ch_versions = ch_versions.mix(UPD_REGIONS.out.versions)
         ch_versions = ch_versions.mix(CHROMOGRAPH_SITES.out.versions)
-        ch_versions = ch_versions.mix(CHROMOGRAPH_REGIONS.out.versions)
+        // Does not work on subsampled BAM ?
+        //ch_versions = ch_versions.mix(CHROMOGRAPH_REGIONS.out.versions)
         ch_versions = ch_versions.mix(ZIP_TABIX_VCFANNO.out.versions)
         ch_versions = ch_versions.mix(BCFTOOLS_VIEW.out.versions)
         ch_versions = ch_versions.mix(GATK4_SELECTVARIANTS.out.versions.first())
