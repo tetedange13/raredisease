@@ -21,11 +21,12 @@ workflow RANK_VARIANTS {
     main:
         ch_versions = Channel.empty()
 
-        GENMOD_ANNOTATE(ch_vcf)
+        // Do not annotate and use '--vep' in downstream steps
+        // GENMOD_ANNOTATE(ch_vcf)
 
-        ch_models_in = GENMOD_ANNOTATE.out.vcf.combine(ch_pedfile)
+        // ch_models_in = GENMOD_ANNOTATE.out.vcf.combine(ch_pedfile)
 
-        GENMOD_MODELS(ch_models_in, ch_reduced_penetrance)
+        GENMOD_MODELS(ch_vcf.combine(ch_pedfile), ch_reduced_penetrance)
 
         ch_score_in = GENMOD_MODELS.out.vcf.combine(ch_pedfile)
 
@@ -41,7 +42,7 @@ workflow RANK_VARIANTS {
 
         TABIX_TABIX (ch_vcf)
 
-        ch_versions = ch_versions.mix(GENMOD_ANNOTATE.out.versions)
+        // ch_versions = ch_versions.mix(GENMOD_ANNOTATE.out.versions)
         ch_versions = ch_versions.mix(GENMOD_MODELS.out.versions)
         ch_versions = ch_versions.mix(GENMOD_SCORE.out.versions)
         ch_versions = ch_versions.mix(GENMOD_COMPOUND.out.versions)
